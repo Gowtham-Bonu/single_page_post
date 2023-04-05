@@ -1,0 +1,8 @@
+<%= turbo_frame_tag post do %>
+  <div>
+    <p><%= post.title %></p>
+    <p><%= post.description %></p>
+    <div class="seperate" ><%= link_to "edit", edit_post_path(post) %></div>
+    <%= button_to "destroy", post_path(post), method: :delete %>
+  </div>
+<% end %>

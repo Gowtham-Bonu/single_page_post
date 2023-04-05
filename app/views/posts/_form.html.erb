@@ -1,0 +1,11 @@
+<%= form_with model: post do |form| %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+
+  <%= form.label :description %>
+  <%= form.text_area :description %>
+
+  <%= form.submit %>
+<% end %>

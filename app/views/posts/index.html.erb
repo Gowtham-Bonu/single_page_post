@@ -1,0 +1,16 @@
+<%= link_to "manage your posts"  %>
+
+<%= turbo_frame_tag "explore" do %>
+    <%= link_to "explore all", explore_path, data: { turbo_frame: "explore_posts" } %>
+<% end %>
+
+<%= turbo_frame_tag "create_new_form" do %>
+  <%= link_to "create a new post", new_post_path, data: { turbo_frame: "new_form" } %>
+<% end %>
+
+<%= turbo_frame_tag "new_form" %>
+
+<%= turbo_frame_tag "explore_posts" do %>
+    <%= render @posts %>
+<% end %>
+<%= button_to "signout", destroy_user_session_path, method: :delete %>
