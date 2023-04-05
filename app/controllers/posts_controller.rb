@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
+  before_action :get_post, only: [:edit, :update, :destroy, :comment, :like]
+
   def index
     @posts = Post.where(user_id: current_user.id)
   end
@@ -22,11 +24,9 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
   end
 
   def update
-    @post = Post.find(params[:id])
     if @post.update(post_params)
       redirect_to root_path, notice: "Post was successfully updated."
     else
@@ -35,7 +35,6 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:id])
     @post.destroy
     respond_to do |format|
       format.html { redirect_to root_path, notice: " Post was successfully destroyed." }
@@ -47,12 +46,23 @@ class PostsController < ApplicationController
     @posts = Post.all
   end
 
-  
+  def comment
+    comment = @post.comments.create(description: params[:description])
+    @comments = @post.comments
+  end
+
+  def like
+    if @post.liked?
+      @post.update(like: 1)
+    else
+      @post.update(like: 0)
+    end
+  end
 
   private
 
-  def set_quote
-    @quote = Quote.find(params[:id])
+  def get_post
+    @post = Post.find(params[:id])
   end
 
   def post_params

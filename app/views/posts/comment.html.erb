@@ -1,0 +1,9 @@
+<%= turbo_frame_tag "post_comments_#{@post.id}" do %>
+  <%= form_with url: comment_post_path(@post) do |form| %>
+    <%= form.label :comment %>
+    <%= form.text_area :description %>
+
+    <%= form.submit %>
+  <% end %>
+  <%= render partial: "comments", locals: {comments: @comments} %>
+<% end %>

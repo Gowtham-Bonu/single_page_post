@@ -1,6 +1,26 @@
 <% posts.each do |post| %>
-  <div>
-    <p><%= post.title %></p>
-    <p><%= post.description %></p>
+  <div class="m-5 card" style="width: 18rem;">
+    <div class="card-body">
+      <p class="badge bg-primary text-wrap card-title"><%= post.title %></p>
+      <p class="card-text"><%= post.description %></p>
+      <%= turbo_frame_tag "post_comments_#{post.id}" do %>
+        <div class="card">
+          <%= form_with url: comment_post_path(post) do |form| %>
+            <%= form.label :comment %>
+            <%= form.text_area :description %>
+
+            <%= form.submit "comment"%>
+          <% end %>
+        </div>
+        <%= render partial: "comment", collection: post.comments %>
+      <% end %>
+      <%= turbo_frame_tag "like" do %>
+        <% if post.liked? %>
+          <%= button_to "dislike", like_post_path(post), class: "btn btn-danger"  %>
+        <% else %>
+          <%= button_to "like", like_post_path(post), class: "btn btn-info"  %>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 <% end %>

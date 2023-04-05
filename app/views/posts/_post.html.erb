@@ -1,8 +1,10 @@
 <%= turbo_frame_tag post do %>
-  <div>
-    <p><%= post.title %></p>
-    <p><%= post.description %></p>
-    <div class="seperate" ><%= link_to "edit", edit_post_path(post) %></div>
-    <%= button_to "destroy", post_path(post), method: :delete %>
+  <div class="m-5 card" style="width: 18rem;">
+    <div class="card-body">
+      <p class="badge bg-primary text-wrap card-title"><%= post.title %></</p>
+      <p class="card-text"><%= post.description %></</p>
+      <%= button_to "destroy", post_path(post), method: :delete, class: "btn btn-danger" %>
+      <button class="btn btn-info" ><%= link_to "edit", edit_post_path(post) %></button>
+    </div>
   </div>
 <% end %>
