@@ -12,7 +12,6 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-
     if @post.save
       respond_to do |format|
         format.html { redirect_to root_path, notice: "Post was successfully created." }
@@ -23,8 +22,7 @@ class PostsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @post.update(post_params)
@@ -47,16 +45,12 @@ class PostsController < ApplicationController
   end
 
   def comment
-    comment = @post.comments.create(description: params[:description])
+    @post.comments.create(description: params[:description])
     @comments = @post.comments
   end
 
   def like
-    if @post.liked?
-      @post.update(like: 1)
-    else
-      @post.update(like: 0)
-    end
+    @post.liked? ? @post.update(like: 1) : @post.update(like: 0)
   end
 
   private
