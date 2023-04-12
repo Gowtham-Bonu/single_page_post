@@ -50,7 +50,17 @@ class PostsController < ApplicationController
   end
 
   def like
-    @post.liked? ? @post.update(like: 1) : @post.update(like: 0)
+    @like =  Like.where(user_id: current_user.id, post_id: @post.id)
+    if @like.empty?
+      @like = Like.create(user_id: current_user.id, post_id: @post.id, status: 0)
+      debugger
+    else
+      if @like.liked?
+        @like.update(status: 1)
+      else
+        @like.update(status: 0)
+      end
+    end
   end
 
   private
