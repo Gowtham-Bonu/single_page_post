@@ -16,9 +16,9 @@
       <% end %>
       <%= turbo_frame_tag "like" do %>
         <% if liked?(post) == "liked" %>
-          <%= button_to "dislike", class: "btn btn-danger" %>
+          <%= button_to "dislike", like_post_path(post), class: "btn btn-danger" %>
         <% else %>
-          <%= button_to "like", class: "btn btn-info" %>
+          <%= button_to "like", like_post_path(post), class: "btn btn-info" %>
         <% end %>
       <% end %>
     </div>
