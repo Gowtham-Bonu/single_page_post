@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
-  before_action :get_post, only: [:edit, :update, :destroy, :comment, :like]
+  before_action :get_post, except: [:index, :new, :create, :explore]
 
   def index
     @posts = Post.where(user_id: current_user.id)
@@ -18,6 +18,7 @@ class PostsController < ApplicationController
         format.turbo_stream
       end
     else
+      flash.now[:alert] = "post isn't created! try again . . ."
       render :new, status: :unprocessable_entity
     end
   end
@@ -28,6 +29,7 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       redirect_to root_path, notice: "Post was successfully updated."
     else
+      flash.now[:alert] = "post isn't created! try again . . ."
       render :edit, status: :unprocessable_entity
     end
   end
@@ -50,16 +52,8 @@ class PostsController < ApplicationController
   end
 
   def like
-    @like =  Like.where(user_id: current_user.id, post_id: @post.id).take
-    if @like
-      if @like.liked?
-        @like.update(status: 1)
-      else
-        @like.update(status: 0)
-      end   
-    else
-      @like = Like.create(user_id: current_user.id, post_id: @post.id, status: 0)
-    end
+    @like =  Like.find_or_create_by(user_id: current_user.id, post_id: @post.id)
+    @like.liked? ? @like.update(status: 1) : @like.update(status: 0)
   end
 
   private
