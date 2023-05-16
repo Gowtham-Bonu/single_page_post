@@ -3,7 +3,7 @@
     <%= form.label :comment %>
     <%= form.text_area :description %>
 
-    <%= form.submit %>
+    <%= form.submit "comment"%>
   <% end %>
   <%= render partial: "comments", locals: {comments: @comments} %>
 <% end %>

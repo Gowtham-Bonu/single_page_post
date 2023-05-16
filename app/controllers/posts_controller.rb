@@ -11,14 +11,14 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.build(post_params)
     if @post.save
       respond_to do |format|
         format.html { redirect_to root_path, notice: "Post was successfully created." }
         format.turbo_stream
       end
     else
-      flash.now[:alert] = "post isn't created! try again . . ."
+      flash.now[:alert] = "Post wasn't created."
       render :new, status: :unprocessable_entity
     end
   end
@@ -29,7 +29,7 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       redirect_to root_path, notice: "Post was successfully updated."
     else
-      flash.now[:alert] = "post isn't created! try again . . ."
+      flash.now[:alert] = "post isn't updated! try again . . ."
       render :edit, status: :unprocessable_entity
     end
   end
@@ -43,12 +43,14 @@ class PostsController < ApplicationController
   end
 
   def explore
-    @posts = Post.all
+    @posts = Post.includes(:likes, :user, :comments).all
   end
 
   def comment
-    @post.comments.create(description: params[:description])
-    @comments = @post.comments
+    comment = @post.comments.build(description: params[:description])
+    comment.user_id = current_user.id
+    comment.save
+    @comments = @post.comments.includes(:user)
   end
 
   def like
@@ -63,6 +65,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :user_id, :description)
+    params.require(:post).permit(:title, :description)
   end
 end

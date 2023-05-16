@@ -1,22 +1,20 @@
-<div class="container" >
-  <div class="card" >
-      <div class="d-flex justify-content-around">
-      <button type="button" class="btn btn-dark"><%= link_to "manage your posts"  %></button>
-      <%= turbo_frame_tag "explore" do %>
-          <button type="button" class="btn btn-light"><%= link_to "explore all", explore_posts_path, data: { turbo_frame: "explore_posts" } %></button>
-      <% end %>
-    </div>
+<div class="card" >
+  <div class="d-flex justify-content-around">
+    <%= link_to "manage your posts", root_path ,class: "btn btn-dark" %>
+    <%= turbo_frame_tag "explore" do %>
+      <%= link_to "explore all", explore_posts_path, data: { turbo_frame: "explore_posts" }, class: "btn btn-light" %>
+    <% end %>
   </div>
-  <%= turbo_frame_tag "create_new_form" do %>
-    <button type="button" class="btn btn-outline-dark"><%= link_to "create a new post", new_post_path, data: { turbo_frame: "new_form" } %></button>
-  <% end %>
-  <div><%= turbo_frame_tag "new_form" %></div>
-  <div class="mt-4 mb-4 container" >
-    <div class="card" >
-      <%= turbo_frame_tag "explore_posts" do %>
-        <%= render @posts %>
-      <% end %>
-    </div>
-  </div>
-  <%= button_to "signout", destroy_user_session_path, method: :delete, class: "btn btn-primary" %>
 </div>
+<%= turbo_frame_tag "create_new_form" do %>
+  <%= link_to "create a new post", new_post_path, data: { turbo_frame: "new_form" }, class: "btn btn-info" %>
+<% end %>
+<div><%= turbo_frame_tag "new_form" %></div>
+<div class="mt-4 mb-4 container" >
+  <div class="card" >
+    <%= turbo_frame_tag "explore_posts" do %>
+      <%= render @posts %>
+    <% end %>
+  </div>
+</div>
+<%= button_to "signout", destroy_user_session_path, method: :delete, class: "btn btn-primary" %>

@@ -1,5 +1,6 @@
 <% posts.each do |post| %>
   <div class="m-5 card" style="width: 18rem;">
+    <p><span class='text-muted'>#posted by ...</span> <%= post.user.user_name %></p>
     <div class="card-body">
       <p class="badge bg-primary text-wrap card-title"><%= post.title %></p>
       <p class="card-text"><%= post.description %></p>
@@ -7,6 +8,7 @@
         <div class="card">
           <%= form_with url: comment_post_path(post) do |form| %>
             <%= form.label :comment %>
+            
             <%= form.text_area :description %>
 
             <%= form.submit "comment"%>

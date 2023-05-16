@@ -1,9 +1,6 @@
 module PostsHelper
   def liked?(post)
-    if Like.where(post_id: post.id, user_id: current_user.id).exists?
-      Like.where(post_id: post.id, user_id: current_user.id).first.status
-    else
-      false
-    end
+    like_status = post.likes.find_by(user_id: current_user.id)
+    like_status ? like_status.status : false
   end
 end

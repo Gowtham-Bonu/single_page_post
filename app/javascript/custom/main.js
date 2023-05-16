@@ -1,1 +1,2 @@
-console.log("hello")
+var bodyElement = document.getElementById("volume")
+bodyElement.style.backgroundColor = "grey"
